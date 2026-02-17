@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evolua — Protótipo (Média Fidelidade)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-6">
+  <!-- “Moldura” do celular -->
+  <main class="w-[390px] max-w-full bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200">
+    <!-- Top bar -->
+    <header class="px-5 py-4 flex items-center justify-between border-b border-slate-200">
+      <button id="btnBack" class="text-slate-600 hover:text-slate-900 text-sm hidden" onclick="goBack()">
+        ← Voltar
+      </button>
+      <div class="font-semibold text-slate-800">Evolua</div>
+      <div class="text-slate-400">⋯</div>
+    </header>
+
+    <!-- Conteúdo -->
+    <section class="p-5">
+      <!-- Screen: Login -->
+      <div id="screen-login" class="screen">
+        <h1 class="text-2xl font-semibold text-slate-900">Bem-vindo de volta</h1>
+        <p class="text-slate-500 mt-1">Entre para continuar sua evolução.</p>
+
+        <div class="mt-6 space-y-4">
+          <div>
+            <label class="text-sm text-slate-700">E-mail</label>
+            <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="voce@email.com" />
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <label class="text-sm text-slate-700">Senha</label>
+              <a href="#" class="text-sm text-blue-600 hover:underline">Esqueceu?</a>
+            </div>
+            <input type="password" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="••••••••" />
+          </div>
+
+          <button class="w-full rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                  onclick="nav('screen-onboarding')">
+            Entrar
+          </button>
+
+          <button class="w-full rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                  onclick="nav('screen-cadastro')">
+            Criar conta
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen: Cadastro -->
+      <div id="screen-cadastro" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Criar conta</h1>
+        <p class="text-slate-500 mt-1">Leva menos de 1 minuto.</p>
+
+        <div class="mt-6 space-y-4">
+          <div>
+            <label class="text-sm text-slate-700">Nome completo</label>
+            <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Seu nome" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-700">E-mail</label>
+            <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="voce@email.com" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-700">Senha</label>
+            <input type="password" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Crie uma senha" />
+          </div>
+
+          <label class="flex gap-3 items-start text-sm text-slate-600">
+            <input type="checkbox" class="mt-1" />
+            <span>Ao se cadastrar, você concorda com os Termos do Serviço.</span>
+          </label>
+
+          <button class="w-full rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                  onclick="toast('Conta criada com sucesso!'); nav('screen-onboarding')">
+            Criar conta
+          </button>
+
+          <button class="w-full rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                  onclick="nav('screen-login')">
+            Já tenho conta
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen: Onboarding -->
+      <div id="screen-onboarding" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Alcance seus objetivos</h1>
+        <p class="text-slate-500 mt-1">Transforme planos em ação e acompanhe seu progresso.</p>
+
+        <div class="mt-6 grid grid-cols-3 gap-3">
+          <div class="rounded-2xl border border-slate-200 p-3 text-center">
+            <div class="text-2xl">🎯</div>
+            <div class="text-xs mt-2 text-slate-700 font-medium">Defina metas</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 p-3 text-center">
+            <div class="text-2xl">🧩</div>
+            <div class="text-xs mt-2 text-slate-700 font-medium">Crie roadmap</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 p-3 text-center">
+            <div class="text-2xl">📈</div>
+            <div class="text-xs mt-2 text-slate-700 font-medium">Veja progresso</div>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <button class="w-full rounded-xl bg-green-600 text-white py-3 font-medium hover:bg-green-700"
+                  onclick="nav('screen-objetivo')">
+            Avançar
+          </button>
+
+          <div class="mt-4 flex justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+            <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+            <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen: Definir Objetivo -->
+      <div id="screen-objetivo" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Defina seu objetivo</h1>
+        <p class="text-slate-500 mt-1">Escolha uma meta principal para o seu roadmap.</p>
+
+        <div class="mt-6 space-y-4">
+          <div>
+            <label class="text-sm text-slate-700">Meta principal</label>
+            <input id="goalInput" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Ex: Tornar-se Arquiteto .NET" />
+          </div>
+
+          <div>
+            <label class="text-sm text-slate-700">Prazo</label>
+            <select class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>3 meses</option>
+              <option selected>6 meses</option>
+              <option>12 meses</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-sm text-slate-700">Prioridade</label>
+            <div class="mt-2 grid grid-cols-3 gap-2">
+              <button class="priority rounded-xl border border-slate-200 py-2 text-sm hover:bg-slate-50" onclick="setPriority(this)">Alta</button>
+              <button class="priority rounded-xl border border-slate-200 py-2 text-sm hover:bg-slate-50" onclick="setPriority(this)">Média</button>
+              <button class="priority rounded-xl border border-slate-200 py-2 text-sm hover:bg-slate-50" onclick="setPriority(this)">Baixa</button>
+            </div>
+          </div>
+
+          <button class="w-full rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                  onclick="saveGoal(); nav('screen-roadmap')">
+            Continuar
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen: Roadmap -->
+      <div id="screen-roadmap" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Seu Roadmap</h1>
+        <p class="text-slate-500 mt-1">Objetivo: <span id="goalText" class="text-slate-700 font-medium">—</span></p>
+
+        <div class="mt-6 space-y-4">
+          <div class="rounded-2xl border border-slate-200 p-4">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-slate-800">Módulo 1: Fundamentos</div>
+              <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600">Etapa 1</span>
+            </div>
+            <ul class="mt-3 text-sm text-slate-600 list-disc ml-5 space-y-1">
+              <li>Assistir aula introdutória</li>
+              <li>Fazer exercício prático</li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 p-4">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-slate-800">Módulo 2: Prática guiada</div>
+              <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600">Etapa 2</span>
+            </div>
+            <ul class="mt-3 text-sm text-slate-600 list-disc ml-5 space-y-1">
+              <li>Construir mini-projeto</li>
+              <li>Revisar pontos fracos</li>
+            </ul>
+          </div>
+
+          <button class="w-full rounded-xl bg-green-600 text-white py-3 font-medium hover:bg-green-700"
+                  onclick="toast('Roadmap iniciado!'); nav('screen-progresso')">
+            Iniciar
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen: Progresso -->
+      <div id="screen-progresso" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Meu Progresso</h1>
+        <p class="text-slate-500 mt-1">Objetivo: <span id="goalText2" class="text-slate-700 font-medium">—</span></p>
+
+        <div class="mt-6 rounded-2xl border border-slate-200 p-4">
+          <div class="flex items-center justify-between">
+            <div class="text-sm text-slate-600">Progresso</div>
+            <div id="pct" class="text-sm font-medium text-slate-800">58%</div>
+          </div>
+          <div class="mt-3 h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div id="bar" class="h-3 bg-blue-600 w-[58%] transition-all"></div>
+          </div>
+
+          <div class="mt-5">
+            <div class="text-sm font-medium text-slate-800">Próximas tarefas</div>
+            <label class="mt-3 flex items-center gap-3 text-sm text-slate-700">
+              <input id="t1" type="checkbox" onchange="completeTask()" />
+              Escrever resumo do módulo
+            </label>
+            <label class="mt-2 flex items-center gap-3 text-sm text-slate-700">
+              <input id="t2" type="checkbox" onchange="completeTask()" />
+              Fazer exercício prático
+            </label>
+          </div>
+
+          <div class="mt-5 grid grid-cols-2 gap-2">
+            <button class="rounded-xl bg-green-600 text-white py-3 font-medium hover:bg-green-700"
+                    onclick="toast('Tarefas atualizadas!')">
+              Marcar concluído
+            </button>
+            <button class="rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                    onclick="toast('Relatório gerado (protótipo)!')">
+              Ver relatório
+            </button>
+          </div>
+        </div>
+
+        <button class="mt-4 w-full rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                onclick="toast('Revisão agendada!'); nav('screen-revisao')">
+          Ir para revisão semanal
+        </button>
+      </div>
+
+      <!-- Screen: Revisão -->
+      <div id="screen-revisao" class="screen hidden">
+        <h1 class="text-2xl font-semibold text-slate-900">Revisão Semanal</h1>
+        <p class="text-slate-500 mt-1">Revise sua semana e ajuste seu plano.</p>
+
+        <div class="mt-6 rounded-2xl border border-slate-200 p-4">
+          <div class="text-sm font-medium text-slate-800">Resumo da semana</div>
+          <ul class="mt-3 text-sm text-slate-600 list-disc ml-5 space-y-1">
+            <li>2 tarefas concluídas</li>
+            <li>1 módulo em andamento</li>
+            <li>Consistência: boa</li>
+          </ul>
+
+          <div class="mt-5 text-sm font-medium text-slate-800">Próximos passos</div>
+          <div class="mt-3 space-y-2">
+            <button class="w-full rounded-xl border border-slate-200 py-3 text-slate-700 hover:bg-slate-50"
+                    onclick="toast('Nova tarefa criada (protótipo)!')">
+              + Nova tarefa
+            </button>
+            <button class="w-full rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                    onclick="toast('Plano ajustado!'); nav('screen-progresso')">
+              Ajustar plano
+            </button>
+          </div>
+        </div>
+
+        <button class="mt-4 w-full rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                onclick="nav('screen-login')">
+          Sair (voltar ao login)
+        </button>
+      </div>
+    </section>
+
+    <!-- Toast (feedback visual) -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 hidden">
+      <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm">
+        <span id="toastText">Ação realizada</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const historyStack = [];
+    let current = "screen-login";
+    let priority = "Média";
+
+    function nav(screenId) {
+      if (screenId === current) return;
+      historyStack.push(current);
+      show(screenId);
+    }
+
+    function goBack() {
+      const prev = historyStack.pop();
+      if (prev) show(prev);
+    }
+
+    function show(screenId) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
+      document.getElementById(screenId).classList.remove("hidden");
+      current = screenId;
+
+      // Botão voltar (não aparece no login)
+      document.getElementById("btnBack").classList.toggle("hidden", historyStack.length === 0 || current === "screen-login");
+    }
+
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      document.getElementById("toastText").textContent = msg;
+      el.classList.remove("hidden");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(() => el.classList.add("hidden"), 1600);
+    }
+
+    function setPriority(btn) {
+      document.querySelectorAll(".priority").forEach(b => {
+        b.classList.remove("bg-slate-900", "text-white", "border-slate-900");
+      });
+      btn.classList.add("bg-slate-900", "text-white", "border-slate-900");
+      priority = btn.textContent.trim();
+      toast("Prioridade: " + priority);
+    }
+
+    function saveGoal() {
+      const v = document.getElementById("goalInput").value.trim() || "Aprender Marketing Digital";
+      localStorage.setItem("goal", v);
+      localStorage.setItem("priority", priority);
+      document.getElementById("goalText").textContent = v;
+      document.getElementById("goalText2").textContent = v;
+      toast("Objetivo salvo!");
+    }
+
+    // carregar objetivo salvo
+    (function init() {
+      const g = localStorage.getItem("goal");
+      if (g) {
+        document.getElementById("goalText").textContent = g;
+        document.getElementById("goalText2").textContent = g;
+      }
+    })();
+
+    function completeTask() {
+      const t1 = document.getElementById("t1").checked;
+      const t2 = document.getElementById("t2").checked;
+      let pct = 58 + (t1 ? 10 : 0) + (t2 ? 10 : 0);
+      if (pct > 100) pct = 100;
+
+      document.getElementById("pct").textContent = pct + "%";
+      document.getElementById("bar").style.width = pct + "%";
+      toast("Progresso atualizado!");
+    }
+  </script>
+</body>
+</html>
