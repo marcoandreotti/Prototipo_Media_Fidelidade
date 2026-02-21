@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evolua — Protótipo Web (Tailwind)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+  <!-- Topbar -->
+  <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold">E</div>
+        <div>
+          <div class="font-semibold leading-tight">Evolua</div>
+          <div class="text-xs text-slate-500 -mt-0.5">Protótipo Web • média fidelidade</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button class="hidden sm:inline-flex px-3 py-2 rounded-xl border border-slate-200 text-sm hover:bg-slate-50"
+                onclick="toast('Protótipo (sem login real)')">
+          Ajuda
+        </button>
+        <button class="px-3 py-2 rounded-xl bg-blue-600 text-white text-sm hover:bg-blue-700"
+                onclick="nav('login')">
+          Ir para Login
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+      <!-- Sidebar / Navegação -->
+      <aside class="bg-white border border-slate-200 rounded-2xl p-4 h-fit lg:sticky lg:top-20">
+        <div class="text-xs uppercase tracking-wider text-slate-500">Navegação</div>
+
+        <nav class="mt-3 space-y-2">
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="login" onclick="nav('login')">
+            Login
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="cadastro" onclick="nav('cadastro')">
+            Cadastro
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="onboarding" onclick="nav('onboarding')">
+            Onboarding
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="objetivo" onclick="nav('objetivo')">
+            Definir objetivo
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="roadmap" onclick="nav('roadmap')">
+            Roadmap
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="progresso" onclick="nav('progresso')">
+            Progresso
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="resumo" onclick="nav('resumo')">
+            Resumo geral
+          </button>
+          <button class="navbtn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent"
+                  data-target="revisao" onclick="nav('revisao')">
+            Revisão semanal
+          </button>
+        </nav>
+
+        <div class="mt-5 pt-5 border-t border-slate-200">
+          <div class="text-xs uppercase tracking-wider text-slate-500">Status</div>
+          <div class="mt-2 text-sm text-slate-700">
+            <div class="flex items-center justify-between">
+              <span>Objetivo</span>
+              <span id="sideGoal" class="font-medium text-slate-900">—</span>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span>Prioridade</span>
+              <span id="sidePrio" class="font-medium text-slate-900">—</span>
+            </div>
+            <div class="flex items-center justify-between mt-1">
+              <span>Progresso</span>
+              <span id="sidePct" class="font-medium text-slate-900">60%</span>
+            </div>
+          </div>
+
+          <button class="mt-4 w-full px-3 py-2 rounded-xl border border-slate-200 text-sm hover:bg-slate-50"
+                  onclick="resetDemo()">
+            Resetar dados (demo)
+          </button>
+        </div>
+      </aside>
+
+      <!-- Conteúdo / Telas -->
+      <section class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+        <!-- Header da tela -->
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+          <div>
+            <div id="screenTitle" class="text-lg font-semibold">Login</div>
+            <div id="screenSubtitle" class="text-sm text-slate-500">Acesse para continuar sua jornada.</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnBack" class="hidden px-3 py-2 rounded-xl border border-slate-200 text-sm hover:bg-slate-50"
+                    onclick="goBack()">
+              Voltar
+            </button>
+            <button class="px-3 py-2 rounded-xl bg-green-600 text-white text-sm hover:bg-green-700"
+                    onclick="toast('Ação simulada (protótipo)')">
+              Salvar
+            </button>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6">
+          <!-- LOGIN -->
+          <div id="screen-login" class="screen">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+              <div>
+                <div class="text-sm text-slate-600">Bem-vindo de volta</div>
+                <h1 class="text-2xl font-semibold mt-1">Entre para evoluir com consistência</h1>
+                <p class="text-slate-600 mt-2">
+                  Defina metas, crie seu roadmap e acompanhe seu progresso.
+                </p>
+
+                <div class="mt-6 space-y-4">
+                  <div>
+                    <label class="text-sm font-medium text-slate-700">E-mail</label>
+                    <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="voce@email.com" />
+                  </div>
+                  <div>
+                    <div class="flex items-center justify-between">
+                      <label class="text-sm font-medium text-slate-700">Senha</label>
+                      <button class="text-sm text-blue-600 hover:underline" onclick="toast('Recuperação (protótipo)')">Esqueceu?</button>
+                    </div>
+                    <input type="password" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="••••••••" />
+                  </div>
+
+                  <button class="w-full rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                          onclick="nav('onboarding')">
+                    Entrar
+                  </button>
+
+                  <button class="w-full rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="nav('cadastro')">
+                    Criar conta
+                  </button>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-slate-200 p-5 bg-slate-50">
+                <div class="text-sm font-semibold">O que você faz aqui?</div>
+                <ul class="mt-3 space-y-2 text-sm text-slate-700">
+                  <li class="flex gap-2"><span>✅</span><span>Transforma metas em passos claros</span></li>
+                  <li class="flex gap-2"><span>✅</span><span>Começa um roadmap com tarefas</span></li>
+                  <li class="flex gap-2"><span>✅</span><span>Vê progresso e revisa semanalmente</span></li>
+                </ul>
+                <div class="mt-4 text-xs text-slate-500">
+                  * Protótipo acadêmico — ações simuladas.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CADASTRO -->
+          <div id="screen-cadastro" class="screen hidden">
+            <div class="max-w-xl">
+              <h2 class="text-xl font-semibold">Crie sua conta</h2>
+              <p class="text-slate-600 mt-1">Leva menos de 1 minuto.</p>
+
+              <div class="mt-6 space-y-4">
+                <div>
+                  <label class="text-sm font-medium text-slate-700">Nome completo</label>
+                  <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         placeholder="Seu nome" />
+                </div>
+                <div>
+                  <label class="text-sm font-medium text-slate-700">E-mail</label>
+                  <input class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         placeholder="voce@email.com" />
+                </div>
+                <div>
+                  <label class="text-sm font-medium text-slate-700">Senha</label>
+                  <input type="password" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         placeholder="Crie uma senha" />
+                </div>
+
+                <label class="flex gap-3 items-start text-sm text-slate-600">
+                  <input type="checkbox" class="mt-1" />
+                  <span>Eu concordo com os Termos de Uso.</span>
+                </label>
+
+                <div class="flex gap-3">
+                  <button class="flex-1 rounded-xl bg-blue-600 text-white py-3 font-medium hover:bg-blue-700"
+                          onclick="toast('Conta criada (protótipo)'); nav('onboarding')">
+                    Criar conta
+                  </button>
+                  <button class="flex-1 rounded-xl border border-slate-200 py-3 font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="nav('login')">
+                    Já tenho conta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ONBOARDING -->
+          <div id="screen-onboarding" class="screen hidden">
+            <div class="max-w-3xl">
+              <h2 class="text-xl font-semibold">Vamos personalizar sua jornada</h2>
+              <p class="text-slate-600 mt-1">Responda rapidamente para gerar um caminho inicial.</p>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Área de atuação</div>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    <button class="chip" onclick="pickArea('Tech', this)">Tech</button>
+                    <button class="chip" onclick="pickArea('Business', this)">Business</button>
+                    <button class="chip" onclick="pickArea('Outros', this)">Outros</button>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Objetivo profissional</div>
+                  <div class="mt-3 space-y-2">
+                    <button class="goalbtn" onclick="pickObj('Subir de cargo', this)">Subir de cargo</button>
+                    <button class="goalbtn" onclick="pickObj('Mudar de área', this)">Mudar de área</button>
+                    <button class="goalbtn" onclick="pickObj('Aprender habilidade', this)">Aprender habilidade</button>
+                  </div>
+                </div>
+              </div>
+
+              <button class="mt-6 rounded-xl bg-green-600 text-white py-3 px-5 font-medium hover:bg-green-700"
+                      onclick="nav('objetivo')">
+                Continuar
+              </button>
+            </div>
+          </div>
+
+          <!-- DEFINIR OBJETIVO -->
+          <div id="screen-objetivo" class="screen hidden">
+            <div class="max-w-3xl">
+              <h2 class="text-xl font-semibold">Defina seu objetivo</h2>
+              <p class="text-slate-600 mt-1">Quanto mais claro, melhor o roadmap.</p>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <label class="text-sm font-medium text-slate-700">Meta principal</label>
+                  <input id="goalInput" class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         placeholder="Ex: Tornar-se Arquiteto .NET em 6 meses" />
+                  <div class="text-xs text-slate-500 mt-2">Seja específico e mensurável.</div>
+
+                  <div class="mt-5">
+                    <label class="text-sm font-medium text-slate-700">Prazo</label>
+                    <select class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option>3 meses</option>
+                      <option selected>6 meses</option>
+                      <option>12 meses</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Prioridade</div>
+                  <div class="text-sm text-slate-600 mt-1">Ajuda o app a organizar foco e ritmo.</div>
+
+                  <div class="mt-4 space-y-2">
+                    <button class="prio" onclick="setPriority('Alta', this)">
+                      <span class="font-medium">Alta</span>
+                      <span class="text-slate-600 text-sm">Foco principal nas próximas semanas</span>
+                    </button>
+                    <button class="prio" onclick="setPriority('Média', this)">
+                      <span class="font-medium">Média</span>
+                      <span class="text-slate-600 text-sm">Objetivo secundário</span>
+                    </button>
+                    <button class="prio" onclick="setPriority('Baixa', this)">
+                      <span class="font-medium">Baixa</span>
+                      <span class="text-slate-600 text-sm">Meta de longo prazo</span>
+                    </button>
+                  </div>
+
+                  <div class="mt-5 rounded-xl bg-slate-50 border border-slate-200 p-4">
+                    <div class="text-sm font-semibold">Dica</div>
+                    <div class="text-sm text-slate-600 mt-1">
+                      Uma prioridade “Alta” ajuda a manter consistência e reduzir dispersão.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="mt-6 rounded-xl bg-blue-600 text-white py-3 px-5 font-medium hover:bg-blue-700"
+                      onclick="saveGoal(); nav('roadmap')">
+                Gerar Roadmap
+              </button>
+            </div>
+          </div>
+
+          <!-- ROADMAP -->
+          <div id="screen-roadmap" class="screen hidden">
+            <div class="max-w-4xl">
+              <div class="flex items-start justify-between gap-4 flex-wrap">
+                <div>
+                  <h2 class="text-xl font-semibold">Seu Roadmap</h2>
+                  <p class="text-slate-600 mt-1">Objetivo: <span id="goalText" class="font-medium text-slate-900">—</span></p>
+                </div>
+                <button class="rounded-xl bg-green-600 text-white py-3 px-5 font-medium hover:bg-green-700"
+                        onclick="toast('Roadmap iniciado!'); nav('progresso')">
+                  Iniciar
+                </button>
+              </div>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="flex items-center justify-between">
+                    <div class="font-semibold">Etapa 1</div>
+                    <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600">Fundamentos</span>
+                  </div>
+                  <ul class="mt-3 text-sm text-slate-700 list-disc ml-5 space-y-1">
+                    <li>Tarefa 1</li>
+                    <li>Tarefa 2</li>
+                  </ul>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="flex items-center justify-between">
+                    <div class="font-semibold">Trilha de estudo</div>
+                    <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600">Sugestão</span>
+                  </div>
+                  <div class="mt-4 space-y-3">
+                    <div>
+                      <div class="flex items-center justify-between text-sm">
+                        <span>Fundamentos</span><span class="text-slate-500">40%</span>
+                      </div>
+                      <div class="mt-2 h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-600 w-[40%]"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center justify-between text-sm">
+                        <span>Prática guiada</span><span class="text-slate-500">20%</span>
+                      </div>
+                      <div class="mt-2 h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-2 bg-green-600 w-[20%]"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROGRESSO -->
+          <div id="screen-progresso" class="screen hidden">
+            <div class="max-w-4xl">
+              <div class="flex items-start justify-between gap-4 flex-wrap">
+                <div>
+                  <h2 class="text-xl font-semibold">Progresso</h2>
+                  <p class="text-slate-600 mt-1">Seu progresso no objetivo atual.</p>
+                </div>
+
+                <div class="flex gap-2">
+                  <button class="rounded-xl border border-slate-200 py-3 px-4 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="toast('Relatório (protótipo)')">
+                    Relatório
+                  </button>
+                  <button class="rounded-xl bg-green-600 text-white py-3 px-4 text-sm font-medium hover:bg-green-700"
+                          onclick="completeTask(); toast('Tarefa marcada!')">
+                    Marcar concluído
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 rounded-2xl border border-slate-200 p-5">
+                  <div class="flex items-center justify-between">
+                    <div class="text-sm font-semibold">Progresso no objetivo</div>
+                    <div class="text-sm font-semibold" id="pct">60%</div>
+                  </div>
+                  <div class="mt-3 h-3 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="bar" class="h-3 bg-green-600 w-[60%] transition-all"></div>
+                  </div>
+                  <div class="text-sm text-slate-600 mt-3">
+                    Continue concluindo tarefas para aumentar sua evolução.
+                  </div>
+
+                  <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="rounded-xl border border-slate-200 p-4">
+                      <div class="text-sm text-slate-500">Tarefas</div>
+                      <div class="text-lg font-semibold mt-1"><span id="tasks">4</span> / 8</div>
+                    </div>
+                    <div class="rounded-xl border border-slate-200 p-4">
+                      <div class="text-sm text-slate-500">Cursos</div>
+                      <div class="text-lg font-semibold mt-1">2 concluídos</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Insights</div>
+                  <ul class="mt-3 text-sm text-slate-700 space-y-2">
+                    <li class="flex gap-2"><span>💡</span><span>Dicas de consistência</span></li>
+                    <li class="flex gap-2"><span>✅</span><span>Pequenas entregas por dia</span></li>
+                    <li class="flex gap-2"><span>⏱️</span><span>Reserve 20 min fixos</span></li>
+                  </ul>
+
+                  <button class="mt-5 w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="nav('resumo')">
+                    Ver resumo geral
+                  </button>
+
+                  <button class="mt-2 w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="nav('revisao')">
+                    Ir para revisão semanal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RESUMO -->
+          <div id="screen-resumo" class="screen hidden">
+            <div class="max-w-3xl">
+              <h2 class="text-xl font-semibold">Resumo geral</h2>
+              <p class="text-slate-600 mt-1">Visão rápida do seu plano e próximos passos.</p>
+
+              <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Seu plano atual</div>
+                  <div class="mt-3 text-sm text-slate-700 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <span>Meta</span>
+                      <span id="sumGoal" class="font-medium">—</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Prioridade</span>
+                      <span id="sumPrio" class="font-medium">—</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Progresso</span>
+                      <span id="sumPct" class="font-medium">60%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 p-5">
+                  <div class="text-sm font-semibold">Próximas ações</div>
+                  <ul class="mt-3 text-sm text-slate-700 list-disc ml-5 space-y-1">
+                    <li>Concluir módulo 2</li>
+                    <li>Revisar pontos fracos</li>
+                    <li>Agendar revisão semanal</li>
+                  </ul>
+
+                  <button class="mt-5 w-full rounded-xl bg-blue-600 text-white py-3 text-sm font-medium hover:bg-blue-700"
+                          onclick="nav('progresso')">
+                    Voltar ao progresso
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- REVISÃO -->
+          <div id="screen-revisao" class="screen hidden">
+            <div class="max-w-3xl">
+              <h2 class="text-xl font-semibold">Revisão semanal</h2>
+              <p class="text-slate-600 mt-1">Reflita sobre sua semana e ajuste o plano.</p>
+
+              <div class="mt-6 rounded-2xl border border-slate-200 p-5">
+                <div class="text-sm font-semibold">Resumo da semana</div>
+                <ul class="mt-3 text-sm text-slate-700 list-disc ml-5 space-y-1">
+                  <li>2 tarefas concluídas</li>
+                  <li>1 módulo em andamento</li>
+                  <li>Consistência: boa</li>
+                </ul>
+
+                <div class="mt-5 text-sm font-semibold">Próximos passos</div>
+                <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                  <button class="flex-1 rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                          onclick="toast('Nova tarefa (protótipo)')">
+                    + Nova tarefa
+                  </button>
+                  <button class="flex-1 rounded-xl bg-green-600 text-white py-3 text-sm font-medium hover:bg-green-700"
+                          onclick="toast('Plano ajustado!'); nav('progresso')">
+                    Ajustar meta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 hidden z-50">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm">
+      <span id="toastText">Ação realizada</span>
+    </div>
+  </div>
+
+  <script>
+    // ---- util ----
+    const historyStack = [];
+    let current = "login";
+
+    function toast(msg){
+      const el = document.getElementById("toast");
+      document.getElementById("toastText").textContent = msg;
+      el.classList.remove("hidden");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(() => el.classList.add("hidden"), 1600);
+    }
+
+    function setActiveNav(target){
+      document.querySelectorAll(".navbtn").forEach(b => {
+        const isActive = b.dataset.target === target;
+        b.classList.toggle("bg-blue-50", isActive);
+        b.classList.toggle("border-blue-200", isActive);
+        b.classList.toggle("text-blue-700", isActive);
+        b.classList.toggle("font-medium", isActive);
+      });
+    }
+
+    function setHeader(title, subtitle){
+      document.getElementById("screenTitle").textContent = title;
+      document.getElementById("screenSubtitle").textContent = subtitle;
+    }
+
+    function show(target){
+      document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
+      document.getElementById("screen-" + target).classList.remove("hidden");
+      current = target;
+
+      // header
+      const meta = {
+        login: ["Login", "Acesse para continuar sua jornada."],
+        cadastro: ["Cadastro", "Crie sua conta para começar."],
+        onboarding: ["Onboarding", "Personalize sua jornada inicial."],
+        objetivo: ["Definir objetivo", "Transforme um desejo em um plano."],
+        roadmap: ["Roadmap", "Estrutura inicial baseada no objetivo."],
+        progresso: ["Progresso", "Acompanhe sua evolução e próximos passos."],
+        resumo: ["Resumo geral", "Visão rápida do plano atual."],
+        revisao: ["Revisão semanal", "Ajuste sua estratégia para a próxima semana."]
+      };
+      setHeader(meta[target][0], meta[target][1]);
+
+      // back
+      document.getElementById("btnBack").classList.toggle("hidden", historyStack.length === 0);
+      setActiveNav(target);
+      syncSide();
+    }
+
+    function nav(target){
+      if (target === current) return;
+      historyStack.push(current);
+      show(target);
+    }
+
+    function goBack(){
+      const prev = historyStack.pop();
+      if (prev) show(prev);
+    }
+
+    function resetDemo(){
+      localStorage.removeItem("goal");
+      localStorage.removeItem("prio");
+      localStorage.removeItem("area");
+      localStorage.removeItem("objetivo");
+      localStorage.removeItem("pct");
+      localStorage.removeItem("tasks");
+      toast("Dados resetados!");
+      syncSide();
+    }
+
+    // ---- onboarding selections ----
+    function clearActive(selector, activeClass){
+      document.querySelectorAll(selector).forEach(el => el.classList.remove(activeClass));
+    }
+
+    function pickArea(val, btn){
+      localStorage.setItem("area", val);
+      clearActive(".chip", "bg-blue-600");
+      btn.classList.add("bg-blue-600");
+      toast("Área: " + val);
+      syncSide();
+    }
+
+    function pickObj(val, btn){
+      localStorage.setItem("objetivo", val);
+      clearActive(".goalbtn", "bg-blue-600");
+      btn.classList.add("bg-blue-600");
+      toast("Objetivo: " + val);
+      syncSide();
+    }
+
+    // ---- priority ----
+    function setPriority(val, btn){
+      localStorage.setItem("prio", val);
+      document.querySelectorAll(".prio").forEach(b => {
+        b.classList.remove("ring-2","ring-blue-500","border-blue-200","bg-blue-50");
+      });
+      btn.classList.add("ring-2","ring-blue-500","border-blue-200","bg-blue-50");
+      toast("Prioridade: " + val);
+      syncSide();
+    }
+
+    function saveGoal(){
+      const input = document.getElementById("goalInput");
+      const goal = (input?.value || "").trim() || "Tornar-se Arquiteto .NET em 6 meses";
+      localStorage.setItem("goal", goal);
+      toast("Objetivo salvo!");
+      syncSide();
+      document.getElementById("goalText").textContent = goal;
+      document.getElementById("sumGoal").textContent = goal;
+    }
+
+    // ---- progress simulation ----
+    function completeTask(){
+      let pct = parseInt(localStorage.getItem("pct") || "60", 10);
+      let tasks = parseInt(localStorage.getItem("tasks") || "4", 10);
+
+      pct = Math.min(100, pct + 5);
+      tasks = Math.min(8, tasks + 1);
+
+      localStorage.setItem("pct", String(pct));
+      localStorage.setItem("tasks", String(tasks));
+      syncSide();
+      syncProgressUI();
+    }
+
+    function syncProgressUI(){
+      const pct = parseInt(localStorage.getItem("pct") || "60", 10);
+      const tasks = parseInt(localStorage.getItem("tasks") || "4", 10);
+
+      const pctEl = document.getElementById("pct");
+      const bar = document.getElementById("bar");
+      const tasksEl = document.getElementById("tasks");
+
+      if (pctEl) pctEl.textContent = pct + "%";
+      if (bar) bar.style.width = pct + "%";
+      if (tasksEl) tasksEl.textContent = String(tasks);
+
+      // resumo
+      const sumPct = document.getElementById("sumPct");
+      if (sumPct) sumPct.textContent = pct + "%";
+    }
+
+    function syncSide(){
+      const goal = localStorage.getItem("goal") || "—";
+      const prio = localStorage.getItem("prio") || "—";
+      const pct = (localStorage.getItem("pct") || "60") + "%";
+
+      document.getElementById("sideGoal").textContent = goal === "—" ? "—" : (goal.length > 18 ? goal.slice(0,18) + "…" : goal);
+      document.getElementById("sidePrio").textContent = prio;
+      document.getElementById("sidePct").textContent = pct;
+
+      // telas
+      const goalText = document.getElementById("goalText");
+      const sumGoal = document.getElementById("sumGoal");
+      const sumPrio = document.getElementById("sumPrio");
+      const sumPct = document.getElementById("sumPct");
+
+      if (goalText) goalText.textContent = goal;
+      if (sumGoal) sumGoal.textContent = goal;
+      if (sumPrio) sumPrio.textContent = prio;
+      if (sumPct) sumPct.textContent = pct;
+
+      syncProgressUI();
+    }
+
+    // ---- small component styles via JS (to keep single-file simple) ----
+    // chips/buttons default classes
+    (function initClasses(){
+      document.querySelectorAll(".chip").forEach(b => {
+        b.className = "chip inline-flex items-center px-3 py-2 rounded-xl border border-slate-200 text-sm hover:bg-slate-50";
+      });
+      document.querySelectorAll(".goalbtn").forEach(b => {
+        b.className = "goalbtn w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 font-medium";
+      });
+      document.querySelectorAll(".prio").forEach(b => {
+        b.className = "prio w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50";
+      });
+    })();
+
+    // boot
+    show("login");
+    syncSide();
+  </script>
+</body>
+</html>
